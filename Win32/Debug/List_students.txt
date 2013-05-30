@@ -1,0 +1,27 @@
+Alekseev , Ivan , Moscow , Lenina , 1 , 2 , T , 56
+Belyaev , Nikolay , Moscow , Stalina , 2 , 3 , T , 54
+Velgush , Oleg , St.Peterburg , Brezhneva , 2 , 3 , T , 55
+Griboedov , Alexander , Kazan , Medvedeva , 2 , 3 , T , 86
+Donadoni , Roberto , Roma , Putina , 2 , 3 , KiB , 57
+Eltsin , Evgeniy , Moscow , Eltsina , 1 , 2 , KiB , 46
+Juchkov , Igor , Mahachkala , Gorbacheva , 1 , 2 , KiB , 100
+Zimin , Vladimir , Yakutsk , Chernenko , 123 , 456 , U , 76
+Irodov , Sergey , Moscow , Andropova , 123 , 456 , KiB , 77
+Kokorin , Dmitry , Moscow , Nikolskogo , 123 , 456 , U , 74
+Lenin , Vladimir , Yekaterinburg , Moskovskaya , 123 , 456 , U , 35
+Medvedev , Dmitry , St.Peterburg , Vladimirskaya , 1 , 2 , T , 58
+Nikolsky , Ivan , Kazan , Moskovskaya , 1 , 2 , U , 77
+Oroev , Vladislav , Moscow ,Moskovskaya , 123 , 456 , U ,59
+Putin , Vladimir , St.Peterburg , Moskovskaya , 42 , 42 , T , 146
+Rozembaum , Alexander , Moscow , Moskovskaya , 42 , 42 , U , 75
+Stalin , Iosif , Astana , Putina , 42 , 42 , T , 46
+Trotskiy , Nikolay , Ufa , Putina , 123 , 456 , T , 79
+Ushakov , Pavel , Moscow , Putina , 42 , 42 , KiB , 86
+Fonvisin , Aleksey , Kaliningrad , Putina , 1 , 2 , U , 70
+Chlestakov , Artyom , Novgorod , Lenina , 42 , 42 , KiB , 89
+Tsaregradskiy , Peresvet , Bandar-Ceri-Begawan , Pcbhverfevtgege , 13 , 666 , T , 97
+Chubais , Igor , Moscow , Lenina , 42 , 42 , KiB , 68
+Shevchenko , Dmitry , Belgorod , Lenina , 123 , 456 , KiB , 88
+Schukin , Andrey , Kyiv , Lenina , 123 , 456 , U , 13
+
+
