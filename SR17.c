@@ -36,7 +36,7 @@ int main(void)//главная функция
 	struct tStudentCard list[25];
 	readfromfile(list);
 	//filling(list);//заполнение остального
-	//output(group);//вывод списка
+	output(list);//вывод списка
    //	search(group);//поиск лучшего с первого курса
 	fflush(stdin);//ожидание действий пользователя
 	getchar();
@@ -67,22 +67,22 @@ int readfromfile(struct tStudentCard *list)
 	}
 }
 
-/*int output(struct tStudentCard *group)//вывод
+int output(struct tStudentCard *group)//вывод
 {
 	int i;
 	printf("   Surname  |    Name    |   Course   | Mathematics|   Physics  |Informatics |\n");//заголовок
-	for (i = 0; i < number; i++)//вывод списка студентов
+	for (i = 0; i < 25; i++)//вывод списка студентов
 	{
 		printf(" %-10s |",group[i].SurName);
 		printf(" %-10s |",group[i].Name);
-		printf(" %-10d |",group[i].Course);
-		printf(" %-10d |",group[i].Marks.Math);
-		printf(" %-10d |",group[i].Marks.Phys);
-		printf(" %-10d |",group[i].Marks.Inform);
+		//printf(" %-10d |",group[i].Course);
+	   //	printf(" %-10d |",group[i].Marks.Math);
+	   //	printf(" %-10d |",group[i].Marks.Phys);
+	   //	printf(" %-10d |",group[i].Marks.Inform);
 		printf("\n");//переход на следущую строчку
 	}
 }
-
+/*
 int search(struct tStudentCard *group)//поиск строк с максимальной суммой элементов в них
 {
 	int sum,maxsum,i,j;
