@@ -1,4 +1,4 @@
-//Лабораторная работа 17. Вариант 1. Яскович Дмитрий (T02-01c). Dimini Inc. (c)2013
+//Самостоятельная работа 17. Вариант 2. Яскович Дмитрий (T02-01c). Dimini Inc. & Govnokod Inc.  (c)2013
 #include <stdio.h>//подключение библиотек
 #include <stdlib.h>
 #include <math.h>
@@ -6,46 +6,58 @@
 
 
 struct tAddress
-{ /* структура оценки */
-	char City[50]; /* оценка по Математике */
-	char Street[50]; /* оценка по Физике */
-	int House;
-	int Flat; /* оценка по Информатике */
+{ /* структура адреса */
+	char City[50]; /* город */
+	char Street[50]; /* улица */
+	int House; //дом
+	int Flat; /* квартира */
 };
 
-struct tStudentCard
+struct tStudentCard //карта абитуриента
 {
 	char SurName[50]; /* фамилия */
 	char Name[50]; /* имя */
-	struct tAddress Address; /* оценки */
-	char Department[50];
-	int Points;
+	struct tAddress Address; /* адрес */
+	char Department[50]; //факультет
+	int Points; //баллы
 };
 
-int readfromfile(struct tStudentCard *list);
-int filling(struct tStudentCard *list);//прототипы функций
-int output(struct tStudentCard *list);
-int pointssearch(int places , struct tStudentCard *list);
+int readfromfile(int *nmbr,struct tStudentCard *list); //прототипы функций
+int pointssearch(int places , char dept[50], struct tStudentCard *list, int number, int *okpoints);
+int passed(char dept[50], struct tStudentCard *list, int number, int okpoints);
+int campus(char dept[50],  int okpoints,struct tStudentCard *list,int number, int *places);
 
 int main(void)//главная функция
 {
 	struct tStudentCard list[40];
-	int placeT=6, placeKiB=5, placeU=4;
-	readfromfile(list);
-	//filling(list);//заполнение остального
-  //	output(list);//вывод списка
-   //	search(group);//поиск лучшего с первого курса
+	int placeT=6, placeKiB=5, placeU=4, number=0, okpointsT=0,okpointsKiB=0,okpointsU=0,placescampus=0;
+	readfromfile(&number,list);//считывание из файла
+	printf("Points to departments\n");//определение проходных баллов на факультеты
+	pointssearch(placeT,"T",list,number,&okpointsT);
+	pointssearch(placeKiB,"KiB",list,number,&okpointsKiB);
+	pointssearch(placeU,"U",list,number,&okpointsU);
+	printf("\nAccepted students:\n");//списки прошедших
+	passed("T",list,number,okpointsT);
+	printf("\n");
+	passed("KiB",list,number,okpointsKiB);
+	printf("\n");
+	passed("U",list,number,okpointsU);
+	printf("\n");
+	campus("T",okpointsT,list,number,&placescampus);//подсчёт мест для общежития
+	campus("KiB",okpointsKiB,list,number,&placescampus);
+	campus("U",okpointsU,list,number,&placescampus);
+	printf("Campus needs %d places\n",placescampus);
 	fflush(stdin);//ожидание действий пользователя
 	getchar();
 	return 0;
 }
 
 
-int readfromfile(struct tStudentCard *list)
+int readfromfile(int *nmbr,struct tStudentCard *list)//считывание из файла
 {
 	FILE *filepointer;//определение переменных
-	int i=0,nmbr;
-	nmbr=0;//сброс количества элементов в массиве
+	int i=0;
+	*nmbr=0;//сброс количества элементов в массиве
 	filepointer = fopen("List_students.txt", "r");//открытие файла
 	if (filepointer==NULL)//не удалось открыть
 	{
@@ -57,77 +69,74 @@ int readfromfile(struct tStudentCard *list)
 		while(!feof(filepointer))//считывание до конца файла
 		{
 			fscanf(filepointer,"%s , %s , %s , %s , %d , %d , %s , %d",&list[i].SurName,&list[i].Name,&list[i].Address.City,&list[i].Address.Street,&list[i].Address.House,&list[i].Address.Flat,&list[i].Department,&list[i].Points);//считывание элемента
-			i++;//изменение позиции в массиве
-			nmbr=nmbr+1;//изменение количества элементов
+			i++;//изменение номера элемента
+			*nmbr=*nmbr+1;//изменение количества элементов
 		}
 		fclose(filepointer);//закрытие файла
 	}
+	*nmbr=*nmbr-1;//аннигилирует с лишним увеличение нмбр в конце цикла
 }
 
-int pointssearch(int places, struct tStudentCard *list)//поиск строк с максимальной суммой элементов в них
+int pointssearch(int places, char dept[50], struct tStudentCard *list, int number,int *okpoints)//поиск строк с максимальной суммой элементов в них
 {
 	int plc=0,nmr,maxpoint,i,j;
-	maxpoint=0;//начальное значение максимальной суммы оценок
-	for (i = 0; i < number; i++)//определение максимального значения
+	maxpoint=0;//начальное значение максимального балла
+	while(plc<=places)
 	{
-		if (list[i].Points>=maxpoint)
+		for (i = 0; i < number; i++)//определение максимального значения
 		{
-			maxpoint=list[i].Points;
-			nmr=i;
-			plc=plc+1;
-			list[i].Points=list[i].Points*(-1);
-			if (sum>maxsum)//сравнение с максимальной суммой
+			if (strstr(list[i].Department,dept)>0)//если с нужного факультета
 			{
-				maxsum=sum;//изменение максимальной суммы если она меньше новой
+				if (list[i].Points>=maxpoint)//если баллы больше максимального
+				{
+					maxpoint=list[i].Points;//макс. балл новый
+					nmr=i; //запоминание номера этого студента
+				}
 			}
 		}
+		plc=plc+1;//минус 1 место
+		list[nmr].Points=list[nmr].Points*(-1);//избавление от старого максимума баллов
+		if (plc==places)//если последнее место
+		{
+			*okpoints=maxpoint;//проходной балл
+		}
+		maxpoint=0;//сброс макс. значения
 	}
+	for (i = 0; i < number; i++)//возврат баллов в нормальное состояние
+	{
+		if (list[i].Points<0)
+		{
+			list[i].Points=list[i].Points*(-1);
+		}
+	}
+	printf("Department %s accepts with %d points\n",dept,*okpoints); //вывод проходного балла
 }
-/*int output(struct tStudentCard *group)//вывод
+
+int passed(char dept[50], struct tStudentCard *list, int number,int okpoints)//принятые студенты
 {
 	int i;
-	printf("   Surname  |    Name    |   Course   | Mathematics|   Physics  |Informatics |\n");//заголовок
-	for (i = 0; i < 25; i++)//вывод списка студентов
+	printf("Department %s\n",dept);//вывод факультета
+	for (i = 0; i < number; i++)//поиск студентов
 	{
-		printf(" %-10s |",group[i].SurName);
-		printf(" %-10s |",group[i].Name);
-		//printf(" %-10d |",group[i].Course);
-	   //	printf(" %-10d |",group[i].Marks.Math);
-	   //	printf(" %-10d |",group[i].Marks.Phys);
-	   //	printf(" %-10d |",group[i].Marks.Inform);
-		printf("\n");//переход на следущую строчку
+		if (strstr(list[i].Department,dept)>0)//с нужным факультетом
+		{
+			if (list[i].Points>=okpoints)//и баллом выше проходного на него
+			{
+				printf("%s %s from %s %s street %d, %d with %d points\n",list[i].SurName,list[i].Name,list[i].Address.City,list[i].Address.Street,list[i].Address.House,list[i].Address.Flat,list[i].Points);//вывод данных студента
+			}
+		}
 	}
+
 }
 
-int search(struct tStudentCard *group)//поиск строк с максимальной суммой элементов в них
+int campus(char dept[50],  int okpoints,struct tStudentCard *list,int number, int *places)//места в общежитии
 {
-	int sum,maxsum,i,j;
-	maxsum=0;//начальное значение максимальной суммы оценок
-	for (i = 0; i < number; i++)//определение максимального значения
+	int i;
+	for (i = 0; i < number; i++)//поиск студентов
 	{
-		if (group[i].Course==1)
+		if ((strstr(list[i].Address.City,"Moscow")<=0)&& (strstr(list[i].Department,dept)>0) &&(list[i].Points>=okpoints))//набравших проходные баллы на факультеты и не живущих в Москве
 		{
-			sum=group[i].Marks.Math+group[i].Marks.Phys+group[i].Marks.Inform;
-			if (sum>maxsum)//сравнение с максимальной суммой
-			{
-				maxsum=sum;//изменение максимальной суммы если она меньше новой
-			}
-		}
-	}
-	printf("\nBest students from 1st course:\n");//вывод заголовка
-	for (i = 0; i < number; i++)//вывод номеров строк с максимальными суммами
-	{
-		if (group[i].Course==1)
-		{
-			sum=0;//обнуление суммы
-			sum=group[i].Marks.Math+group[i].Marks.Phys+group[i].Marks.Inform;
-			if (sum==maxsum)//проверка равенства максимальной суммы и текущей
-			{
-				printf("%s %s\n",group[i].SurName,group[i].Name);//вывод номера строки
-			}
+			*places=*places+1;//увеличение числа нужных мест
 		}
 	}
 }
-
-*/
-
