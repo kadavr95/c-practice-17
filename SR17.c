@@ -33,7 +33,7 @@ int search(struct tStudentCard *list);
 
 int main(void)//главная функция
 {
-	struct tStudentCard list[25];
+	struct tStudentCard list[40];
 	readfromfile(list);
 	//filling(list);//заполнение остального
 	output(list);//вывод списка
@@ -47,7 +47,7 @@ int main(void)//главная функция
 int readfromfile(struct tStudentCard *list)
 {
 	FILE *filepointer;//определение переменных
-	int i=1,nmbr;
+	int i=0,nmbr;
 	nmbr=0;//сброс количества элементов в массиве
 	filepointer = fopen("List_students.txt", "r");//открытие файла
 	if (filepointer==NULL)//не удалось открыть
@@ -59,7 +59,7 @@ int readfromfile(struct tStudentCard *list)
 	{
 		while(!feof(filepointer))//считывание до конца файла
 		{
-			fscanf(filepointer,"%s %s %s %s %d %d %s %d",&list[i].SurName,&list[i].Name,&list[i].Address.City,&list[i].Address.Street,&list[i].Address.House,&list[i].Address.Flat,&list[i].Department,&list[i].Points);//считывание элемента
+			fscanf(filepointer,"%s , %s , %s , %s , %d , %d , %s , %d",&list[i].SurName,&list[i].Name,&list[i].Address.City,&list[i].Address.Street,&list[i].Address.House,&list[i].Address.Flat,&list[i].Department,&list[i].Points);//считывание элемента
 			i++;//изменение позиции в массиве
 			nmbr=nmbr+1;//изменение количества элементов
 		}
@@ -114,3 +114,4 @@ int search(struct tStudentCard *group)//поиск строк с максимальной суммой элемен
 }
 
 */
+
