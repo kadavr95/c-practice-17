@@ -56,7 +56,7 @@ int main(void)//главная функция
 int readfromfile(int *nmbr,struct tStudentCard *list)//считывание из файла
 {
 	FILE *filepointer;//определение переменных
-	int i=0;
+   //	int i=0;
 	*nmbr=0;//сброс количества элементов в массиве
 	filepointer = fopen("List_students.txt", "r");//открытие файла
 	if (filepointer==NULL)//не удалось открыть
@@ -68,8 +68,8 @@ int readfromfile(int *nmbr,struct tStudentCard *list)//считывание из файла
 	{
 		while(!feof(filepointer))//считывание до конца файла
 		{
-			fscanf(filepointer,"%s , %s , %s , %s , %d , %d , %s , %d",&list[i].SurName,&list[i].Name,&list[i].Address.City,&list[i].Address.Street,&list[i].Address.House,&list[i].Address.Flat,&list[i].Department,&list[i].Points);//считывание элемента
-			i++;//изменение номера элемента
+			fscanf(filepointer,"%s , %s , %s , %s , %d , %d , %s , %d",&list[*nmbr].SurName,&list[*nmbr].Name,&list[*nmbr].Address.City,&list[*nmbr].Address.Street,&list[*nmbr].Address.House,&list[*nmbr].Address.Flat,&list[*nmbr].Department,&list[*nmbr].Points);//считывание элемента
+			//i++;//изменение номера элемента
 			*nmbr=*nmbr+1;//изменение количества элементов
 		}
 		fclose(filepointer);//закрытие файла
@@ -94,7 +94,7 @@ int pointssearch(int places, char dept[50], struct tStudentCard *list, int numbe
 				}
 			}
 		}
-		plc=plc+1;//минус 1 место
+		plc++;//плюс одно занятое место
 		list[nmr].Points=list[nmr].Points*(-1);//избавление от старого максимума баллов
 		if (plc==places)//если последнее место
 		{
@@ -122,7 +122,7 @@ int passed(char dept[50], struct tStudentCard *list, int number,int okpoints)//п
 		{
 			if (list[i].Points>=okpoints)//и баллом выше проходного на него
 			{
-				printf("%s %s from %s %s street %d, %d with %d points\n",list[i].SurName,list[i].Name,list[i].Address.City,list[i].Address.Street,list[i].Address.House,list[i].Address.Flat,list[i].Points);//вывод данных студента
+				printf("%s %s from %s %s street %d,%d with %d points\n",list[i].SurName,list[i].Name,list[i].Address.City,list[i].Address.Street,list[i].Address.House,list[i].Address.Flat,list[i].Points);//вывод данных студента
 			}
 		}
 	}
