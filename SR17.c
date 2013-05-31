@@ -4,14 +4,10 @@
 #include <math.h>
 #include <time.h>
 
-#define number 5;
-#define Dep1 4;
-#define Dep2 5;
-#define Dep3 6;
 
 struct tAddress
 { /* структура оценки */
-	char City[20]; /* оценка по Математике */
+	char City[50]; /* оценка по Математике */
 	char Street[50]; /* оценка по Физике */
 	int House;
 	int Flat; /* оценка по Информатике */
@@ -19,8 +15,8 @@ struct tAddress
 
 struct tStudentCard
 {
-	char SurName[20]; /* фамилия */
-	char Name[20]; /* имя */
+	char SurName[50]; /* фамилия */
+	char Name[50]; /* имя */
 	struct tAddress Address; /* оценки */
 	char Department[50];
 	int Points;
@@ -29,14 +25,15 @@ struct tStudentCard
 int readfromfile(struct tStudentCard *list);
 int filling(struct tStudentCard *list);//прототипы функций
 int output(struct tStudentCard *list);
-int search(struct tStudentCard *list);
+int pointssearch(int places , struct tStudentCard *list);
 
 int main(void)//главная функция
 {
 	struct tStudentCard list[40];
+	int placeT=6, placeKiB=5, placeU=4;
 	readfromfile(list);
 	//filling(list);//заполнение остального
-	output(list);//вывод списка
+  //	output(list);//вывод списка
    //	search(group);//поиск лучшего с первого курса
 	fflush(stdin);//ожидание действий пользователя
 	getchar();
@@ -67,7 +64,26 @@ int readfromfile(struct tStudentCard *list)
 	}
 }
 
-int output(struct tStudentCard *group)//вывод
+int pointssearch(int places, struct tStudentCard *list)//поиск строк с максимальной суммой элементов в них
+{
+	int plc=0,nmr,maxpoint,i,j;
+	maxpoint=0;//начальное значение максимальной суммы оценок
+	for (i = 0; i < number; i++)//определение максимального значения
+	{
+		if (list[i].Points>=maxpoint)
+		{
+			maxpoint=list[i].Points;
+			nmr=i;
+			plc=plc+1;
+			list[i].Points=list[i].Points*(-1);
+			if (sum>maxsum)//сравнение с максимальной суммой
+			{
+				maxsum=sum;//изменение максимальной суммы если она меньше новой
+			}
+		}
+	}
+}
+/*int output(struct tStudentCard *group)//вывод
 {
 	int i;
 	printf("   Surname  |    Name    |   Course   | Mathematics|   Physics  |Informatics |\n");//заголовок
@@ -82,7 +98,7 @@ int output(struct tStudentCard *group)//вывод
 		printf("\n");//переход на следущую строчку
 	}
 }
-/*
+
 int search(struct tStudentCard *group)//поиск строк с максимальной суммой элементов в них
 {
 	int sum,maxsum,i,j;
